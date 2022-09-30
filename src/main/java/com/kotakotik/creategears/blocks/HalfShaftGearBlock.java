@@ -1,17 +1,17 @@
 package com.kotakotik.creategears.blocks;
 
 import com.simibubi.create.foundation.utility.VoxelShaper;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorldReader;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class HalfShaftGearBlock extends GearBlock {
     public VoxelShape shape = cuboid(2.0D, 6.0D, 2.0D, 14.0D, 10.0D, 14.0D);
@@ -36,25 +36,25 @@ public class HalfShaftGearBlock extends GearBlock {
     }
 
     @Override
-    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(AXIS_DIRECTION);
         super.createBlockStateDefinition(builder);
     }
 
     @Override
-    public boolean hasShaftTowards(IWorldReader world, BlockPos pos, BlockState state, Direction face) {
+    public boolean hasShaftTowards(LevelReader world, BlockPos pos, BlockState state, Direction face) {
         return face.getAxis() == state.getValue(AXIS) && face.getAxisDirection() == boolToAxisDirection(state.getValue(AXIS_DIRECTION));
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
         Direction dir = Direction.fromAxisAndDirection(state.getValue(AXIS), boolToAxisDirection(state.getValue(AXIS_DIRECTION)));
         return isLargeCog() ? shaperLarge.get(dir) : shaper.get(dir);
 //        return (isLargeCog() ? shaperLarge : shaper).get(state.get(BlockStateProperties.FACING));
     }
 
     @Override
-    public BlockState getStateForPlacement(BlockItemUseContext context) {
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
         // shut up
         Direction dir = context.getClickedFace().getOpposite();
         boolean b = axisDirectionToBool(dir.getAxisDirection());

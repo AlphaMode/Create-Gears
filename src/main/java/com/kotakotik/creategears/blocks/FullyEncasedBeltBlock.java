@@ -4,14 +4,13 @@ import com.kotakotik.creategears.regitration.GearsTiles;
 import com.kotakotik.creategears.util.GenericUtils;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.content.contraptions.relays.encased.EncasedBeltBlock;
-import com.simibubi.create.repack.registrate.providers.RegistrateRecipeProvider;
-import net.minecraft.block.BlockState;
-import net.minecraft.data.ShapedRecipeBuilder;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorldReader;
+import com.tterrag.registrate.providers.RegistrateRecipeProvider;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class FullyEncasedBeltBlock extends EncasedBeltBlock implements GenericUtils {
     public FullyEncasedBeltBlock(Properties properties) {
@@ -19,13 +18,13 @@ public class FullyEncasedBeltBlock extends EncasedBeltBlock implements GenericUt
     }
 
     @Override
-    public boolean hasShaftTowards(IWorldReader world, BlockPos pos, BlockState state, Direction face) {
+    public boolean hasShaftTowards(LevelReader world, BlockPos pos, BlockState state, Direction face) {
         return false;
     }
 
     @Override
-    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return GearsTiles.FULLY_ENCASED_BELT.create();
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return GearsTiles.FULLY_ENCASED_BELT.create(pos, state);
     }
 
     public String getSuffix(String suffix) {
@@ -39,7 +38,7 @@ public class FullyEncasedBeltBlock extends EncasedBeltBlock implements GenericUt
         return ShapedRecipeBuilder.shaped(this, 2)
                 .define('c', AllBlocks.ANDESITE_CASING.get())
                 .define('s', AllBlocks.SHAFT.get())
-                .unlockedBy("has_shaft", prov.hasItem(AllBlocks.SHAFT.get()));
+                .unlockedBy("has_shaft", RegistrateRecipeProvider.has(AllBlocks.SHAFT.get()));
     }
 
     public void fullyEncasedChainDriveRecipe(ShapedRecipeBuilder builder, RegistrateRecipeProvider prov, String type) {

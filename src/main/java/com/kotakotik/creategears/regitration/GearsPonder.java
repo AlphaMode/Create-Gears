@@ -3,12 +3,13 @@ package com.kotakotik.creategears.regitration;
 import com.simibubi.create.Create;
 import com.simibubi.create.foundation.ponder.PonderRegistrationHelper;
 import com.simibubi.create.foundation.ponder.PonderRegistry;
+import com.simibubi.create.foundation.ponder.PonderTag;
 import com.simibubi.create.foundation.ponder.content.ChainDriveScenes;
 import com.simibubi.create.foundation.ponder.content.KineticsScenes;
-import com.simibubi.create.foundation.ponder.content.PonderTag;
+import net.fabricmc.api.ClientModInitializer;
 
-public class GearsPonder {
-    public static void register() {
+public class GearsPonder implements ClientModInitializer {
+    public void onInitializeClient() {
         PonderRegistrationHelper h = new PonderRegistrationHelper(Create.ID);
 
         h.forComponents(GearsBlocks.GEAR, GearsBlocks.LARGE_GEAR)

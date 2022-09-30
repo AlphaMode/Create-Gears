@@ -1,23 +1,20 @@
 package com.kotakotik.creategears.regitration;
 
-import com.kotakotik.creategears.Gears;
 import com.kotakotik.creategears.tiles.GearTile;
 import com.kotakotik.creategears.util.Registration;
+import com.simibubi.create.content.contraptions.base.KineticTileEntity;
 import com.simibubi.create.content.contraptions.base.KineticTileEntityRenderer;
 import com.simibubi.create.content.contraptions.base.SingleRotatingInstance;
-import com.simibubi.create.content.contraptions.relays.encased.EncasedShaftTileEntity;
 import com.simibubi.create.content.contraptions.relays.encased.SplitShaftInstance;
 import com.simibubi.create.content.contraptions.relays.encased.SplitShaftRenderer;
 import com.simibubi.create.content.contraptions.relays.gearbox.GearshiftTileEntity;
 import com.simibubi.create.foundation.data.CreateRegistrate;
-import com.simibubi.create.repack.registrate.util.entry.TileEntityEntry;
-import net.minecraftforge.fml.common.Mod;
+import com.tterrag.registrate.util.entry.BlockEntityEntry;
 
-@Mod.EventBusSubscriber(modid= Gears.modid, bus=Mod.EventBusSubscriber.Bus.FORGE)
 public class GearsTiles extends Registration {
-    public static TileEntityEntry<GearTile> GEAR;
-    public static TileEntityEntry<EncasedShaftTileEntity> FULLY_ENCASED_BELT;
-    public static TileEntityEntry<GearshiftTileEntity> SIMPLE_GEARSHIFT;
+    public static BlockEntityEntry<GearTile> GEAR;
+    public static BlockEntityEntry<KineticTileEntity> FULLY_ENCASED_BELT;
+    public static BlockEntityEntry<GearshiftTileEntity> SIMPLE_GEARSHIFT;
 
     public GearsTiles(CreateRegistrate r) {
         super(r);
@@ -31,7 +28,7 @@ public class GearsTiles extends Registration {
                 .renderer(() -> KineticTileEntityRenderer::new)
                 .register();
 
-        FULLY_ENCASED_BELT = r.tileEntity("fully_encased_shaft", EncasedShaftTileEntity::new)
+        FULLY_ENCASED_BELT = r.tileEntity("fully_encased_shaft", KineticTileEntity::new)
                 .validBlock(GearsBlocks.FULLY_ENCASED_CHAIN_DRIVE)
                 .register();
 

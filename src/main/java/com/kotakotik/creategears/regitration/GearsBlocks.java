@@ -13,16 +13,17 @@ import com.simibubi.create.foundation.data.AssetLookup;
 import com.simibubi.create.foundation.data.BlockStateGen;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.simibubi.create.foundation.data.SharedProperties;
-import com.simibubi.create.repack.registrate.providers.DataGenContext;
-import com.simibubi.create.repack.registrate.providers.RegistrateBlockstateProvider;
-import com.simibubi.create.repack.registrate.util.entry.BlockEntry;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.data.ShapedRecipeBuilder;
-import net.minecraft.state.properties.BlockStateProperties;
+import com.tterrag.registrate.providers.DataGenContext;
+import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
+import com.tterrag.registrate.providers.RegistrateRecipeProvider;
+import com.tterrag.registrate.util.entry.BlockEntry;
+import net.minecraft.core.Direction;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.util.Direction;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 
 public class GearsBlocks extends Registration {
@@ -49,7 +50,7 @@ public class GearsBlocks extends Registration {
                             .pattern("w w")
                             .pattern("www")
                             .define('w', ItemTags.BUTTONS)
-                            .unlockedBy("has_cogwheels", prov.hasItem(AllBlocks.COGWHEEL.get()))
+                            .unlockedBy("has_cogwheels", RegistrateRecipeProvider.has(AllBlocks.COGWHEEL.get()))
                             .save(prov);
 
                     ctx.get().toCogwheelRecipe(AllBlocks.COGWHEEL.get(), prov);
@@ -68,7 +69,7 @@ public class GearsBlocks extends Registration {
                             .pattern("bwb")
                             .define('w', ItemTags.PLANKS)
                             .define('b', ItemTags.BUTTONS)
-                            .unlockedBy("has_large_cogwheels", prov.hasItem(AllBlocks.LARGE_COGWHEEL.get()))
+                            .unlockedBy("has_large_cogwheels", RegistrateRecipeProvider.has(AllBlocks.LARGE_COGWHEEL.get()))
                             .save(prov);
 
                     ctx.get().toCogwheelRecipe(AllBlocks.LARGE_COGWHEEL.get(), prov);
@@ -87,7 +88,7 @@ public class GearsBlocks extends Registration {
                             .pattern("www")
                             .define('w', ItemTags.BUTTONS)
                             .define('a', Blocks.ANDESITE)
-                            .unlockedBy("has_cogwheels", prov.hasItem(AllBlocks.COGWHEEL.get()))
+                            .unlockedBy("has_cogwheels", RegistrateRecipeProvider.has(AllBlocks.COGWHEEL.get()))
                             .save(prov);
                 })
                 .register();
@@ -104,7 +105,7 @@ public class GearsBlocks extends Registration {
                             .define('w', ItemTags.PLANKS)
                             .define('b', ItemTags.BUTTONS)
                             .define('a', Blocks.ANDESITE)
-                            .unlockedBy("has_large_cogwheels", prov.hasItem(AllBlocks.LARGE_COGWHEEL.get()))
+                            .unlockedBy("has_large_cogwheels", RegistrateRecipeProvider.has(AllBlocks.LARGE_COGWHEEL.get()))
                             .save(prov);
                 })
                 .register();
@@ -134,7 +135,7 @@ public class GearsBlocks extends Registration {
 
         SIMPLE_GEARSHIFT = r.block("simple_gearshift", SimpleGearshiftBlock::new)
                 .initialProperties(SharedProperties::stone)
-                .properties(AbstractBlock.Properties::noOcclusion)
+                .properties(BlockBehaviour.Properties::noOcclusion)
                 .transform(GearsStressProvider.registerImpactCopying(AllBlocks.GEARSHIFT))
                 .item().model((ctx, prov) -> prov.blockItem(SIMPLE_GEARSHIFT, "/item")).build()
                 .blockstate((c, p) -> BlockStateGen.axisBlock(c, p, (b) -> p.models().getExistingFile(p.modLoc("block/simple_gearshift/block"))))

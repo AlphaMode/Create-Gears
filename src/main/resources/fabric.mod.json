@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "id": "creategears",
+  "version": "${version}",
+
+  "name": "Create Gears",
+  "description": "A mod that adds gears to Create, like cogwheels but without the shaft part!",
+  "authors": [
+    "kotakotik22",
+    "AlphaMode"
+  ],
+  "contact": {
+    "issues": "https://github.com/mrh0/createaddition/issues",
+    "sources": "https://github.com/mrh0/createaddition"
+  },
+
+  "license": "MIT",
+  "icon": "logo.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.kotakotik.creategears.Gears"
+    ],
+    "client": [
+      "com.kotakotik.creategears.regitration.GearsPonder"
+    ]
+  },
+
+  "depends": {
+    "fabricloader": ">=0.14.9",
+    "fabric": ">=0.58.0",
+    "minecraft": ">=1.18.2",
+    "registrate-fabric": "*",
+    "flywheel": "*"
+  }
+}
